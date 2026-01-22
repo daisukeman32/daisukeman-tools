@@ -4,8 +4,9 @@
 ダイスケマンが作成した各種Webツールへのリンク集ポータルサイトです。
 
 ## デプロイ
-- **ホスティング**: Netlify（予定）
+- **Netlify**: https://daisukeman-toollink.netlify.app
 - **GitHub**: https://github.com/daisukeman32/daisukeman-tools
+- **自動デプロイ**: GitHubにプッシュすると自動でNetlifyに反映される
 
 ## ファイル構成
 - `index.html` - メインのポータルページ（全てのコードが1ファイルに含まれる）

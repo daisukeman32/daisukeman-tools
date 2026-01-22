@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Closed TOOL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #000000;
+      --border: #000000;
+      --hover: #f0f0f0;
+    }
+
+    [data-theme="dark"] {
+      --bg: #000000;
+      --text: #ffffff;
+      --border: #ffffff;
+      --hover: #111111;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+    }
+
+    .hit-counter {
+      height: 20px;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    .hit-counter:hover {
+      opacity: 1;
+    }
+
+    /* Theme Toggle */
+    .theme-toggle {
+      display: flex;
+      border: 2px solid var(--border);
+    }
+
+    .theme-btn {
+      padding: 8px 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--text);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .theme-btn.active {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .theme-btn:not(.active):hover {
+      background: var(--hover);
+    }
+
+    /* Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 120px 24px 60px;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 80px;
+    }
+
+    .brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.5rem, 10vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .tagline {
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    /* Tools List */
+    .tools-list {
+      border-top: 2px solid var(--border);
+    }
+
+    .tool-item-wrapper {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tool-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      flex-wrap: nowrap;
+      cursor: pointer;
+    }
+
+    .tool-item:hover {
+      padding-left: 20px;
+      padding-right: 20px;
+      margin: 0 -20px;
+      background: var(--hover);
+    }
+
+    .tool-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tool-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 12px;
+      opacity: 0.4;
+    }
+
+    .tool-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tool-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .tool-desc {
+      font-size: 12px;
+      opacity: 0.5;
+      letter-spacing: 1px;
+    }
+
+    .tool-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .tool-arrow {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s ease;
+    }
+
+    .tool-item:hover .tool-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .tool-howto {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      opacity: 0.5;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      min-width: 110px;
+      text-align: center;
+    }
+
+    .tool-howto:hover {
+      opacity: 1;
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .tool-howto.coming-soon {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .counter {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .counter img {
+      height: 20px;
+      filter: grayscale(100%);
+    }
+
+    [data-theme="dark"] .counter img {
+      filter: grayscale(100%) invert(1);
+    }
+
+    .credit {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    /* Admin Panel */
+    .admin-panel {
+      display: none;
+      margin-top: 40px;
+      padding: 32px;
+      border: 2px solid var(--border);
+    }
+
+    .admin-panel.active {
+      display: block;
+    }
+
+    .admin-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+
+    .admin-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-group label {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .form-group input {
+      padding: 12px 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-width: 2px;
+    }
+
+    .admin-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .admin-btn {
+      padding: 12px 24px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--text);
+      color: var(--bg);
+      border: 2px solid var(--border);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .admin-btn:hover {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .admin-btn.secondary {
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .admin-btn.secondary:hover {
+      background: var(--text);
+      color: var(--bg);
+    }
+
+    .admin-login {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      font-size: 10px;
+      opacity: 0.2;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .admin-login:hover {
+      opacity: 0.5;
+    }
+
+    .tool-actions {
+      display: flex;
+      gap: 8px;
+      margin-left: 16px;
+    }
+
+    .tool-delete {
+      padding: 8px 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+
+    .tool-delete:hover {
+      opacity: 1;
+      background: #ff4444;
+      color: white;
+      border-color: #ff4444;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.5;
+    }
+
+    .message {
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .message.success {
+      background: #00ff8833;
+      border: 1px solid #00ff88;
+    }
+
+    .message.error {
+      background: #ff444433;
+      border: 1px solid #ff4444;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .container {
+        padding: 100px 16px 40px;
+      }
+
+      .top-bar {
+        top: 16px;
+        right: 16px;
+        gap: 8px;
+      }
+
+      .hit-counter {
+        height: 16px;
+      }
+
+      .theme-btn {
+        padding: 6px 12px;
+        font-size: 10px;
+      }
+
+      header {
+        margin-bottom: 48px;
+      }
+
+      .tool-left {
+        gap: 16px;
+      }
+
+      .tool-howto {
+        font-size: 8px;
+        padding: 4px 8px;
+      }
+
+      .tool-right {
+        gap: 10px;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .admin-panel {
+        padding: 24px 16px;
+      }
+
+      .admin-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <img class="hit-counter" src="https://hits.sh/daisukeman-toollink.netlify.app.svg?style=flat&label=views&color=000000" alt="views">
+    <div class="theme-toggle">
+      <button class="theme-btn active" data-theme="light">Day</button>
+      <button class="theme-btn" data-theme="dark">Dark</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <header>
+      <h1 class="brand">Closed TOOL</h1>
+      <p class="tagline">SupportTOOL</p>
+    </header>
+
+    <nav class="tools-list" id="tools-list">
+      <div class="loading">Loading...</div>
+    </nav>
+
+    <div class="admin-panel" id="admin-panel">
+      <h2 class="admin-title">+ ツール追加</h2>
+      <div id="admin-message"></div>
+      <form class="admin-form" id="admin-form">
+        <div class="form-group">
+          <label>ツール名</label>
+          <input type="text" id="tool-name" placeholder="Webloooop" required>
+        </div>
+        <div class="form-group">
+          <label>URL</label>
+          <input type="url" id="tool-url" placeholder="https://example.netlify.app/" required>
+        </div>
+        <div class="form-group">
+          <label>ツール概要</label>
+          <input type="text" id="tool-desc" placeholder="動画ループ作成ツール" required>
+        </div>
+        <div class="admin-buttons">
+          <button type="submit" class="admin-btn">追加</button>
+          <button type="button" class="admin-btn secondary" id="logout-btn">ログアウト</button>
+        </div>
+      </form>
+    </div>
+
+    <footer>
+      <span class="credit">by Closed</span>
+    </footer>
+  </div>
+
+  <div class="admin-login" id="admin-login">Admin</div>
+
+  <script>
+    // ============================================
+    // ★ 設定 ★
+    // ============================================
+    const CONFIG = {
+      // JSONBin.io の設定（後で設定してください）
+      BIN_ID: 'YOUR_BIN_ID',           // JSONBin.ioで作成したBinのID
+      API_KEY: 'YOUR_API_KEY',         // JSONBin.ioのAPIキー
+
+      // 管理者パスワード
+      ADMIN_PASSWORD: 'asdf'
+    };
+
+    // デフォルトのツールデータ（JSONBin未設定時に使用）
+    const DEFAULT_TOOLS = [
+      { name: "Webloooop", desc: "動画ループ作成ツール", url: "https://webloooop.netlify.app/", howto: "https://drive.google.com/file/d/1PthFO_met_c575UO6n7QQuPcuJwk1TfC/view?usp=drive_link" },
+      { name: "クイザモ", desc: "モザイク処理ツール", url: "https://quizamo.netlify.app/", howto: "" },
+      { name: "FRAME", desc: "動画分割ツール", url: "https://framepic.netlify.app/", howto: "https://drive.google.com/file/d/1XWA-wG2qCvXB0u0tzJj_9FTOFXIuzsU9/view?usp=drive_link" },
+      { name: "GIFMAKER", desc: "GIF作成ツール", url: "https://ggiiff-maker.netlify.app/", howto: "https://drive.google.com/file/d/1XWA-wG2qCvXB0u0tzJj_9FTOFXIuzsU9/view?usp=drive_link" },
+      { name: "SPANKING MAKER", desc: "手動パンパンツール", url: "https://spankingmaker.netlify.app/", howto: "https://drive.google.com/file/d/1nDQ2vkqo-NlhoCCPMv8NIaW4L5TX83j9/view?usp=drive_link" },
+      { name: "Square Crop", desc: "pixiv ＆ X 投稿最適化トリミングツール", url: "https://squarecrop.netlify.app/", howto: "https://drive.google.com/file/d/1Pw5wtc_tVMOwc8QmWwtoQ2ObumVg3_uA/view?usp=sharing" },
+      { name: "Video Compressor", desc: "ビデオ圧縮ツール（300〜500MB対応）", url: "https://videocompressor2.netlify.app/", howto: "" },
+    ];
+    // ============================================
+
+    let tools = [];
+    let isAdmin = false;
+
+    // JSONBinが設定されているかチェック
+    const isJsonBinConfigured = () => {
+      return CONFIG.BIN_ID !== 'YOUR_BIN_ID' && CONFIG.API_KEY !== 'YOUR_API_KEY';
+    };
+
+    // ツールデータを取得
+    async function loadTools() {
+      if (!isJsonBinConfigured()) {
+        // JSONBin未設定時はローカルストレージ or デフォルト
+        const saved = localStorage.getItem('closed_tools');
+        tools = saved ? JSON.parse(saved) : DEFAULT_TOOLS;
+        renderTools();
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}/latest`, {
+          headers: { 'X-Access-Key': CONFIG.API_KEY }
+        });
+        const data = await res.json();
+        tools = data.record.tools || DEFAULT_TOOLS;
+      } catch (e) {
+        console.error('Failed to load:', e);
+        tools = DEFAULT_TOOLS;
+      }
+      renderTools();
+    }
+
+    // ツールデータを保存
+    async function saveTools() {
+      if (!isJsonBinConfigured()) {
+        // JSONBin未設定時はローカルストレージに保存
+        localStorage.setItem('closed_tools', JSON.stringify(tools));
+        return true;
+      }
+
+      try {
+        await fetch(`https://api.jsonbin.io/v3/b/${CONFIG.BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Access-Key': CONFIG.API_KEY
+          },
+          body: JSON.stringify({ tools })
+        });
+        return true;
+      } catch (e) {
+        console.error('Failed to save:', e);
+        return false;
+      }
+    }
+
+    // ツールリストを描画
+    function renderTools() {
+      const list = document.getElementById('tools-list');
+      list.innerHTML = '';
+
+      tools.forEach((tool, index) => {
+        const num = String(index + 1).padStart(2, '0');
+        const item = document.createElement('div');
+        item.className = 'tool-item-wrapper';
+
+        let actionsHtml = '';
+        if (isAdmin) {
+          actionsHtml = `
+            <div class="tool-actions">
+              <button class="tool-delete" data-index="${index}">Delete</button>
+            </div>
+          `;
+        }
+
+        let howtoHtml = '';
+        if (tool.howto) {
+          howtoHtml = `<a href="${tool.howto}" target="_blank" rel="noopener" class="tool-howto">HOW TO USE</a>`;
+        } else {
+          howtoHtml = `<span class="tool-howto coming-soon">COMING SOON</span>`;
+        }
+
+        item.innerHTML = `
+          <div class="tool-item" data-url="${tool.url}">
+            <div class="tool-left">
+              <span class="tool-num">${num}</span>
+              <div class="tool-info">
+                <span class="tool-name">${tool.name}</span>
+                <span class="tool-desc">${tool.desc}</span>
+              </div>
+            </div>
+            <div class="tool-right">
+              ${howtoHtml}
+              <span class="tool-arrow">→</span>
+            </div>
+          </div>
+          ${actionsHtml}
+        `;
+
+        // ツールクリックでURL開く（HOW TO USEクリック時は除く）
+        const toolItem = item.querySelector('.tool-item');
+        toolItem.addEventListener('click', (e) => {
+          if (!e.target.classList.contains('tool-howto')) {
+            window.open(tool.url, '_blank');
+          }
+        });
+
+        if (isAdmin) {
+          item.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tool-delete')) {
+              e.preventDefault();
+              deleteTool(index);
+            }
+          });
+        }
+
+        list.appendChild(item);
+      });
+    }
+
+    // ツール追加
+    async function addTool(name, desc, url) {
+      tools.push({ name, desc, url });
+      const success = await saveTools();
+      if (success) {
+        renderTools();
+        showMessage('Tool added!', 'success');
+      } else {
+        tools.pop();
+        showMessage('Failed to save', 'error');
+      }
+    }
+
+    // ツール削除
+    async function deleteTool(index) {
+      if (!confirm('Delete this tool?')) return;
+
+      const removed = tools.splice(index, 1);
+      const success = await saveTools();
+      if (success) {
+        renderTools();
+        showMessage('Tool deleted!', 'success');
+      } else {
+        tools.splice(index, 0, removed[0]);
+        showMessage('Failed to delete', 'error');
+      }
+    }
+
+    // メッセージ表示
+    function showMessage(text, type) {
+      const msg = document.getElementById('admin-message');
+      msg.innerHTML = `<div class="message ${type}">${text}</div>`;
+      setTimeout(() => msg.innerHTML = '', 3000);
+    }
+
+    // 管理者ログイン
+    function adminLogin() {
+      const password = prompt('Password:');
+      if (password === null) return;
+
+      if (password === CONFIG.ADMIN_PASSWORD) {
+        isAdmin = true;
+        document.getElementById('admin-panel').classList.add('active');
+        document.getElementById('admin-login').style.display = 'none';
+        renderTools();
+      } else {
+        alert('パスワードが違います');
+      }
+    }
+
+    // 管理者ログアウト
+    function adminLogout() {
+      isAdmin = false;
+      document.getElementById('admin-panel').classList.remove('active');
+      document.getElementById('admin-login').style.display = 'block';
+      renderTools();
+    }
+
+    // イベント設定
+    document.getElementById('admin-login').addEventListener('click', adminLogin);
+    document.getElementById('logout-btn').addEventListener('click', adminLogout);
+
+    document.getElementById('admin-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('tool-name').value.trim();
+      const desc = document.getElementById('tool-desc').value.trim();
+      const url = document.getElementById('tool-url').value.trim();
+
+      if (name && desc && url) {
+        await addTool(name, desc, url);
+        e.target.reset();
+      }
+    });
+
+    // テーマ切り替え
+    const buttons = document.querySelectorAll('.theme-btn');
+    const html = document.documentElement;
+
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      buttons[0].classList.remove('active');
+      buttons[1].classList.add('active');
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const theme = btn.dataset.theme;
+        if (theme === 'dark') {
+          html.setAttribute('data-theme', 'dark');
+        } else {
+          html.removeAttribute('data-theme');
+        }
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        localStorage.setItem('theme', theme);
+      });
+    });
+
+    // 初期化
+    loadTools();
+  </script>
+</body>
+</html>

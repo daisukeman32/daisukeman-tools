@@ -11,16 +11,18 @@
 ## ファイル構成
 - `index.html` - メインのポータルページ（全てのコードが1ファイルに含まれる）
 
-## ツール一覧（DEFAULT_TOOLS配列内、index.html 524行目付近）
-| 番号 | ツール名 | 説明 | URL |
-|------|----------|------|-----|
-| 01 | Webloooop | 動画ループ作成ツール | webloooop.netlify.app |
-| 02 | クイザモ | モザイク処理ツール | quizamo.netlify.app |
-| 03 | FRAME | 動画分割ツール | framepic.netlify.app |
-| 04 | GIFMAKER | GIF作成ツール | ggiiff-maker.netlify.app |
-| 05 | SPANKING MAKER | 手動パンパンツール | spankingmaker.netlify.app |
-| 06 | Square Crop | pixiv & X 投稿最適化トリミングツール | squarecrop.netlify.app |
-| 07 | Video Compressor | ビデオ圧縮ツール（300〜500MB対応） | videocompressor2.netlify.app |
+## ツール一覧（DEFAULT_TOOLS配列内、index.html 538行目付近）
+| 番号 | ツール名 | 説明 | Ver | 更新日 | URL |
+|------|----------|------|-----|--------|-----|
+| 01 | QUIZAMO | オンデマンドモザイク処理ツール | 3.6 | 2026.02.12 | quizamo.netlify.app |
+| 02 | SPANKING MAKER | 手動パンパンツール | 1.0 | 2026.01.21 | spankingmaker.netlify.app |
+| 03 | Webloooop | 動画ループ作成ツール | 2.4 | 2026.01.27 | webloooop.netlify.app |
+| 04 | FRAME | 動画分割ツール【pixiv用】 | - | 2025.12.18 | framepic.netlify.app |
+| 05 | GIFMAKER | GIF作成ツール | 2.0 | 2026.01.10 | ggiiff-maker.netlify.app |
+| 06 | Square Crop | pixiv＆X投稿最適化トリミングツール | 2.0 | 2026.01.22 | squarecrop.netlify.app |
+| 07 | pixivooon | pixiv投稿支援ツール | 1.8 | 2026.01.30 | pixivooon.netlify.app |
+| 08 | Video Compressor | ビデオ圧縮ツール（300〜500MB対応） | - | 2026.01.21 | videocompressor2.netlify.app |
+| 09 | SUGOMEMO | SNS特化型メモツール | - | 2026.02.05 | sugomemo.netlify.app |
 
 ## 編集方法
 
@@ -33,7 +35,10 @@
   name: "ツール名",
   desc: "説明文",
   url: "ツールのURL",
-  howto: "使い方動画のGoogle Driveリンク"
+  howto: "使い方動画のGoogle Driveリンク",
+  version: "バージョン番号",
+  updated: "更新日（YYYY.MM.DD）",
+  detail: "詳細説明"
 }
 ```
 

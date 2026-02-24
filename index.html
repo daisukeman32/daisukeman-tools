@@ -959,8 +959,7 @@
           showUserInfo({ username: data.username, avatar: data.avatar });
           loadTools();
         } else {
-          console.log('Auth error:', data);
-          status.innerHTML = '<div class="discord-error">アクセス権がありません。対象ロールが付与されているか確認してください。<br><small>' + JSON.stringify(data.debug || {}) + '</small></div>';
+          status.innerHTML = '<div class="discord-error">アクセス権がありません。対象ロールが付与されているか確認してください。</div>';
         }
       } catch (err) {
         status.innerHTML = '<div class="discord-error">認証に失敗しました。もう一度お試しください。</div>';

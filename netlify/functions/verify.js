@@ -59,7 +59,7 @@ exports.handler = async (event) => {
     if (!hasRole) {
       return {
         statusCode: 403,
-        body: JSON.stringify({ error: 'No required role', debug: { userRoles, allowedRoles: ALLOWED_ROLES, guildId: GUILD_ID } }),
+        body: JSON.stringify({ error: 'No required role' }),
       };
     }
 

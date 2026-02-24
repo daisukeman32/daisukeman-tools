@@ -1,0 +1,7 @@
+.env
+node_modules
+rename-sites.sh
+rollback.sh
+
+# Local Netlify folder
+.netlify

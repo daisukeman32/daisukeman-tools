@@ -578,9 +578,31 @@
       cursor: pointer;
       margin-left: 4px;
     }
+
+    /* Hidden P Link */
+    .hidden-p {
+      position: fixed;
+      left: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--text);
+      opacity: 0.06;
+      text-decoration: none;
+      z-index: 100;
+      transition: opacity 0.3s ease;
+    }
+
+    .hidden-p:hover {
+      opacity: 0.15;
+    }
   </style>
 </head>
 <body>
+  <a href="https://peeingsoundmaker.netlify.app/" target="_blank" rel="noopener" class="hidden-p">P</a>
+
   <!-- Discord Login Overlay -->
   <div class="discord-overlay" id="discord-overlay">
     <div class="discord-login-box">

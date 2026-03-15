@@ -10,7 +10,7 @@ exports.handler = async (event) => {
 
   const CLIENT_ID = process.env.DISCORD_CLIENT_ID;
   const CLIENT_SECRET = process.env.DISCORD_CLIENT_SECRET;
-  const GUILD_ID = process.env.DISCORD_GUILD_ID;
+  const GUILD_IDS = (process.env.DISCORD_GUILD_ID || '').split(',');
   const ALLOWED_ROLES = (process.env.DISCORD_ALLOWED_ROLES || '').split(',');
   const REDIRECT_URI = process.env.DISCORD_REDIRECT_URI;
 
@@ -37,24 +37,21 @@ exports.handler = async (event) => {
       };
     }
 
-    // サーバーのメンバー情報を取得（ロール含む）
-    const memberRes = await fetch(
-      `https://discord.com/api/users/@me/guilds/${GUILD_ID}/member`,
-      { headers: { Authorization: `Bearer ${tokenData.access_token}` } }
-    );
+    // 複数サーバーをチェック（いずれかで許可ロールがあればOK）
+    let hasRole = false;
+    for (const guildId of GUILD_IDS) {
+      const memberRes = await fetch(
+        `https://discord.com/api/users/@me/guilds/${guildId.trim()}/member`,
+        { headers: { Authorization: `Bearer ${tokenData.access_token}` } }
+      );
 
-    if (!memberRes.ok) {
-      return {
-        statusCode: 403,
-        body: JSON.stringify({ error: 'Not a member of the server' }),
-      };
+      if (memberRes.ok) {
+        const memberData = await memberRes.json();
+        const userRoles = memberData.roles || [];
+        hasRole = userRoles.some((role) => ALLOWED_ROLES.includes(role));
+        if (hasRole) break;
+      }
     }
-
-    const memberData = await memberRes.json();
-    const userRoles = memberData.roles || [];
-
-    // 許可ロールを持っているかチェック
-    const hasRole = userRoles.some((role) => ALLOWED_ROLES.includes(role));
 
     if (!hasRole) {
       return {

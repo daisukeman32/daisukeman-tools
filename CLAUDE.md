@@ -14,7 +14,7 @@
 ## ツール一覧（DEFAULT_TOOLS配列内、index.html 538行目付近）
 | 番号 | ツール名 | 説明 | Ver | 更新日 | URL |
 |------|----------|------|-----|--------|-----|
-| 01 | QUIZAMO | オンデマンドモザイク処理ツール | 3.6 | 2026.02.12 | quizamo.netlify.app |
+| 01 | QUIZAMO | オンデマンドモザイク処理ツール | 4.3 | 2026.06.30 | quizamo.netlify.app |
 | 02 | SPANKING MAKER | 手動パンパンツール | 1.0 | 2026.01.21 | spankingmaker.netlify.app |
 | 03 | Webloooop | 動画ループ作成ツール | 2.4 | 2026.01.27 | webloooop.netlify.app |
 | 04 | FRAME | 動画分割ツール【pixiv用】 | - | 2025.12.18 | framepic.netlify.app |
